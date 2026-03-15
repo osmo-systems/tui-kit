@@ -14,6 +14,8 @@
 //! | [`popup`] | [`popup::centered_popup`] — centered overlay area + Clear |
 
 pub mod block;
+pub mod form;
+pub mod kv;
 pub mod list;
 pub mod log;
 pub mod popup;
@@ -21,6 +23,8 @@ pub mod tabs;
 pub mod theme;
 pub mod toast;
 
+pub use form::{FieldInput, FormEvent, FormField, FormState, render_form};
+pub use kv::KvRow;
 pub use list::{ListItem, ListState};
 pub use log::{LogEntry, LogLevel};
 pub use theme::Theme;
