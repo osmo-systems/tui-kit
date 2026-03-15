@@ -1,0 +1,14 @@
+[package]
+name = "tui-kit"
+version = "0.1.0"
+edition = "2021"
+rust-version = "1.93"
+license = "MIT OR Apache-2.0"
+authors = ["Mathieu Antoine"]
+repository = "https://github.com/osmo-systems/tui-kit"
+homepage = "https://github.com/osmo-systems/tui-kit"
+description = "Reusable TUI theme, widget frames, and layout helpers built on ratatui"
+keywords = ["tui", "ratatui", "terminal", "widgets", "theme"]
+
+[dependencies]
+ratatui = "0.28"
