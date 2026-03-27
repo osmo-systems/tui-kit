@@ -6,16 +6,51 @@
 //!
 //! ## Modules
 //!
-//! | Module   | Contents |
-//! |----------|----------|
-//! | [`theme`] | [`Theme`] struct — the full color/style palette |
-//! | [`block`] | [`block::panel_block`], [`block::popup_block`], [`block::widget_title`], [`block::focusable_block`] |
-//! | [`tabs`]  | [`tabs::tab_line`] — horizontal tab-bar line for block titles |
-//! | [`popup`] | [`popup::centered_popup`] — centered overlay area + Clear |
+//! | Module     | Contents |
+//! |------------|----------|
+//! | [`theme`]  | [`Theme`] struct — the full color/style palette |
+//! | [`block`]  | [`block::panel_block`], [`block::popup_block`], [`block::widget_title`], [`block::focusable_block`] |
+//! | [`footer`] | [`render_footer`], [`render_footer_with_app`], [`keybind_spans`] — keybind bar |
+//! | [`tabs`]   | [`tabs::tab_line`] — horizontal tab-bar line for block titles |
+//! | [`popup`]  | [`popup::centered_popup`] — centered overlay area + Clear |
+//! | [`leader`] | [`render_leader_bar`] — vim-style leader key popup |
+//! | [`toast`]  | [`render_toasts`] — stacked notification toasts |
+//! | [`list`]   | [`list::render_list`] — scrollable focusable list |
+//! | [`form`]   | [`render_form`] — multi-field input form |
+//! | [`kv`]     | [`kv::render_kv_table`] — two-column key/value table |
+//!
+//! ## Keybind bar convention
+//!
+//! Every project should show a footer keybind bar using [`render_footer`].
+//! The visual format is identical across all projects:
+//!
+//! ```text
+//! j/k :Navigate  |  Enter :Open  |  space :Leader  |  q :Quit
+//! ```
+//!
+//! Keys are styled with [`Theme::shortcut_key`] (yellow), actions and
+//! separators with [`Theme::hint`] (dark gray).
+//!
+//! Build pairs contextually based on the active UI layer (popup vs main screen):
+//!
+//! ```rust
+//! let mut pairs: Vec<(&str, &str)> = Vec::new();
+//! if some_popup_open {
+//!     pairs.push(("Esc",   "close"));
+//!     pairs.push(("Enter", "confirm"));
+//! } else {
+//!     pairs.push(("j/k",   "navigate"));
+//!     pairs.push(("space", "leader"));
+//!     pairs.push(("q",     "quit"));
+//! }
+//! render_footer(f, footer_area, &pairs, &theme);
+//! ```
 
 pub mod block;
+pub mod footer;
 pub mod form;
 pub mod kv;
+pub mod leader;
 pub mod list;
 pub mod log;
 pub mod popup;
@@ -23,8 +58,10 @@ pub mod tabs;
 pub mod theme;
 pub mod toast;
 
+pub use footer::{keybind_spans, render_footer, render_footer_with_app};
 pub use form::{FieldInput, FormEvent, FormField, FormState, render_form};
 pub use kv::KvRow;
+pub use leader::{LeaderNode, LeaderResult, LeaderState, render_leader_bar};
 pub use list::{ListItem, ListState};
 pub use log::{LogEntry, LogLevel};
 pub use theme::Theme;
