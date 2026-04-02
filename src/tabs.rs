@@ -25,7 +25,7 @@ pub fn tab_line(tabs: &[(&str, bool)], theme: &Theme) -> Line<'static> {
 
     for (i, (label, active)) in tabs.iter().enumerate() {
         if i > 0 {
-            spans.push(Span::raw("  "));
+            spans.push(Span::styled(" - ", theme.hint));
         }
         let style = if *active { theme.tab_active } else { theme.tab_inactive };
         spans.push(Span::styled(label.to_string(), style));

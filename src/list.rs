@@ -5,7 +5,7 @@ use ratatui::{
     Frame,
 };
 
-use crate::{block::focusable_block, Theme};
+use crate::{block::{focusable_block, render_scrollbar}, Theme};
 
 /// Scroll and selection state for a [`render_list`] widget.
 pub struct ListState {
@@ -93,6 +93,7 @@ pub fn render_list(
     let block = focusable_block(title, shortcut, focused, theme);
     let inner = block.inner(area);
     f.render_widget(block, area);
+    render_scrollbar(f, area, items.len(), state.offset);
 
     let visible_height = inner.height as usize;
 

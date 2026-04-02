@@ -5,7 +5,7 @@ use ratatui::{
     Frame,
 };
 
-use crate::{block::focusable_block, Theme};
+use crate::{block::{focusable_block, render_scrollbar}, Theme};
 
 /// A single row in a [`render_kv_table`] widget.
 pub enum KvRow {
@@ -38,6 +38,7 @@ pub fn render_kv_table(
     let block = focusable_block(title, shortcut, focused, theme);
     let inner = block.inner(area);
     f.render_widget(block, area);
+    render_scrollbar(f, area, rows.len(), scroll as usize);
 
     if inner.height == 0 || rows.is_empty() {
         return;

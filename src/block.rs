@@ -1,6 +1,8 @@
 use ratatui::{
+    layout::Rect,
     text::{Line, Span},
-    widgets::{Block, Borders},
+    widgets::{Block, Borders, Scrollbar, ScrollbarOrientation, ScrollbarState},
+    Frame,
 };
 
 use crate::Theme;
@@ -75,6 +77,28 @@ pub fn focusable_block(title: &str, shortcut: Option<u8>, focused: bool, theme: 
 /// // Panel with shortcut indicator, focus-aware
 /// let title = widget_title("Favorites", Some(1), focused, &theme);
 /// ```
+/// Render a native ratatui vertical scrollbar over the right border of `area`.
+///
+/// Pass the **outer** block area (including borders). The scrollbar overlaps the
+/// right border column, which is the standard ratatui pattern.
+///
+/// - `total`    — total number of content rows / lines.
+/// - `position` — index of the first visible row (the scroll offset).
+///
+/// Does nothing when all content fits in the visible area.
+pub fn render_scrollbar(f: &mut Frame, area: Rect, total: usize, position: usize) {
+    let visible = area.height.saturating_sub(2) as usize; // subtract top+bottom borders
+    if total <= visible {
+        return;
+    }
+    let mut state = ScrollbarState::new(total).position(position);
+    f.render_stateful_widget(
+        Scrollbar::new(ScrollbarOrientation::VerticalRight),
+        area,
+        &mut state,
+    );
+}
+
 pub fn widget_title(label: &str, shortcut: Option<u8>, active: bool, theme: &Theme) -> Line<'static> {
     let label_style = if active { theme.tab_active } else { theme.tab_inactive };
     let border_style = if active { theme.border_focused } else { theme.border_unfocused };
