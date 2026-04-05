@@ -4,10 +4,10 @@
 //! Each hint is a `(key, action)` pair styled as:
 //!
 //! ```text
-//! j/k :Navigate  |  Enter :Open  |  space :Leader  |  q :Quit
-//! ^^^^ ^^^^^^^^^^    ^^^^^                           ^
-//! key  action         key                            separator
-//! (yellow)  (dark gray)                            (dark gray)
+//! Navigate: j/k  |  Open: Enter  |  Leader: space  |  Quit: q
+//! ^^^^^^^^^^ ^^^    ^^^^  ^^^^^                      ^^^^  ^
+//! action     key    action key                       action separator
+//! (dark gray)(yellow)                               (dark gray)
 //! ```
 //!
 //! ## Usage
@@ -115,8 +115,8 @@ pub fn keybind_spans<'a>(pairs: &[(&'a str, &'a str)], theme: &Theme) -> Vec<Spa
         if i > 0 {
             spans.push(Span::styled(" | ", theme.hint));
         }
-        spans.push(Span::styled(*key, theme.shortcut_key));
-        spans.push(Span::styled(format!(" :{}", action), theme.hint));
+        spans.push(Span::styled(*action, theme.shortcut_key));
+        spans.push(Span::styled(format!(": {}", key), theme.hint));
     }
     spans
 }

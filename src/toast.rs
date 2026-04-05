@@ -57,7 +57,7 @@ impl Toast {
 }
 
 /// Render all active toasts stacked in the top-right corner, newest on top.
-pub fn render_toasts(f: &mut Frame, toasts: &[Toast], _theme: &Theme) {
+pub fn render_toasts(f: &mut Frame, toasts: &[Toast], theme: &Theme) {
     const TOAST_WIDTH: u16 = 56;
     const MARGIN_RIGHT: u16 = 1;
     const MARGIN_TOP: u16 = 1;
@@ -76,25 +76,25 @@ pub fn render_toasts(f: &mut Frame, toasts: &[Toast], _theme: &Theme) {
             break;
         }
 
-        let normal_color = match toast.level {
-            ToastLevel::Success => Color::Green,
-            ToastLevel::Warning => Color::Yellow,
-            ToastLevel::Error => Color::Red,
+        let normal_style = match toast.level {
+            ToastLevel::Success => theme.success,
+            ToastLevel::Warning => theme.border_warning,
+            ToastLevel::Error   => theme.border_error,
         };
-        let color = if toast.is_fading() {
-            Color::Indexed(8)
+        let style = if toast.is_fading() {
+            Style::default().fg(Color::DarkGray)
         } else {
-            normal_color
+            normal_style
         };
 
         let toast_area = Rect { x, y, width: TOAST_WIDTH, height: toast_height };
 
         let block = Block::default()
             .borders(Borders::ALL)
-            .border_style(Style::default().fg(color));
+            .border_style(style);
 
         let body = Paragraph::new(toast.message.as_str())
-            .style(Style::default().fg(color))
+            .style(style)
             .block(block)
             .wrap(Wrap { trim: true });
 

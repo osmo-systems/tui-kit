@@ -1,9 +1,32 @@
 use ratatui::style::{Color, Modifier, Style};
 
-/// Color and style palette for the application.
+/// Color and style palette for tui-kit components.
 ///
-/// Create a [`Theme::default()`] for the standard lazygit-inspired scheme,
-/// or build a custom one by modifying individual fields.
+/// ## Usage
+///
+/// Use [`Theme::native()`] (the default) for a palette that adapts to the
+/// user's terminal color scheme, or [`Theme::dark()`] for a fixed
+/// lazygit-inspired dark palette.
+///
+/// ## Extending for your app
+///
+/// Wrap `Theme` in your own struct for app-specific semantic roles:
+///
+/// ```rust
+/// pub struct AppTheme {
+///     pub base: Theme,            // passed to all tui-kit calls
+///     pub my_semantic: Style,     // app-specific roles
+/// }
+///
+/// impl AppTheme {
+///     pub fn native() -> Self {
+///         Self {
+///             base: Theme::native(),
+///             my_semantic: Style::default().fg(Color::LightGreen),
+///         }
+///     }
+/// }
+/// ```
 ///
 /// `Theme` is `Copy` so it is cheap to pass by value or reference.
 #[derive(Debug, Clone, Copy)]
@@ -40,22 +63,69 @@ pub struct Theme {
     pub hint: Style,
     /// Separator lines (─ characters).
     pub separator: Style,
+
+    /// Positive / success signal (e.g. toast success, CI pass).
+    pub success: Style,
 }
 
-impl Default for Theme {
-    /// The standard lazygit-inspired palette used across rad projects.
+impl Theme {
+    /// 16-color native palette — adapts to the user's terminal color scheme.
+    ///
+    /// Uses only the 16 named ANSI colors so the result respects the terminal
+    /// theme (dark/light, Solarized, Nord, etc.).
+    ///
+    /// | Role               | Color          |
+    /// |--------------------|----------------|
+    /// | Accent / focused   | LightBlue      |
+    /// | Tabs / headers     | LightBlue      |
+    /// | Shortcuts          | Yellow         |
+    /// | Selection          | Black on LightBlue |
+    /// | Positive signal    | LightGreen     |
+    /// | Negative signal    | LightRed       |
+    /// | Muted / hints      | DarkGray       |
+    pub fn native() -> Self {
+        Self {
+            border_focused:   Style::default().fg(Color::LightBlue).add_modifier(Modifier::BOLD),
+            border_unfocused: Style::default().fg(Color::DarkGray),
+            border_popup:     Style::default().fg(Color::LightBlue).add_modifier(Modifier::BOLD),
+            border_error:     Style::default().fg(Color::LightRed).add_modifier(Modifier::BOLD),
+            border_warning:   Style::default().fg(Color::Yellow).add_modifier(Modifier::BOLD),
+
+            tab_active:   Style::default().fg(Color::LightBlue).add_modifier(Modifier::BOLD),
+            tab_inactive: Style::default().fg(Color::DarkGray),
+
+            selection: Style::default()
+                .fg(Color::Black)
+                .bg(Color::LightBlue)
+                .add_modifier(Modifier::BOLD),
+
+            shortcut_key:       Style::default().fg(Color::Yellow),
+            shortcut_indicator: Style::default().fg(Color::Yellow).add_modifier(Modifier::BOLD),
+
+            section_header: Style::default().fg(Color::LightBlue).add_modifier(Modifier::BOLD),
+            body:           Style::default().fg(Color::White),
+            hint:           Style::default().fg(Color::DarkGray),
+            separator:      Style::default().fg(Color::DarkGray),
+
+            success: Style::default().fg(Color::LightGreen),
+        }
+    }
+
+    /// Fixed dark palette with green accents — does not adapt to terminal theme.
+    ///
+    /// Use when you know the terminal has a dark background and want a
+    /// consistent lazygit-inspired look regardless of terminal settings.
     ///
     /// | Role               | Color        |
     /// |--------------------|--------------|
-    /// | Focused border     | Green + Bold |
+    /// | Accent / focused   | Green + Bold |
     /// | Unfocused border   | White        |
     /// | Active tab         | Green + Bold |
-    /// | Inactive tab       | White        |
     /// | Selection          | White on Blue + Bold |
     /// | Shortcut keys      | Yellow       |
     /// | Section headers    | Cyan + Bold  |
-    /// | Hints              | Dark gray    |
-    fn default() -> Self {
+    /// | Hints              | DarkGray     |
+    pub fn dark() -> Self {
         Self {
             border_focused:   Style::default().fg(Color::Green).add_modifier(Modifier::BOLD),
             border_unfocused: Style::default().fg(Color::White),
@@ -78,6 +148,14 @@ impl Default for Theme {
             body:           Style::default().fg(Color::White),
             hint:           Style::default().fg(Color::DarkGray),
             separator:      Style::default().fg(Color::Green),
+
+            success: Style::default().fg(Color::Green),
         }
+    }
+}
+
+impl Default for Theme {
+    fn default() -> Self {
+        Self::native()
     }
 }

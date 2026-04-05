@@ -26,7 +26,7 @@
 //! The visual format is identical across all projects:
 //!
 //! ```text
-//! j/k :Navigate  |  Enter :Open  |  space :Leader  |  q :Quit
+//! Navigate: j/k  |  Open: Enter  |  Leader: space  |  Quit: q
 //! ```
 //!
 //! Keys are styled with [`Theme::shortcut_key`] (yellow), actions and
@@ -55,6 +55,7 @@ pub mod leader;
 pub mod list;
 pub mod log;
 pub mod mouse;
+pub mod picker;
 pub mod popup;
 pub mod tabs;
 pub mod theme;
@@ -68,5 +69,6 @@ pub use kv::KvRow;
 pub use leader::{LeaderNode, LeaderResult, LeaderState, render_leader_bar};
 pub use list::{ListItem, ListState};
 pub use log::{LogEntry, LogLevel};
+pub use picker::{PickerItem, PickerState, render_picker};
 pub use theme::Theme;
 pub use toast::{Toast, ToastLevel, render_toasts};
