@@ -60,6 +60,7 @@ pub mod popup;
 pub mod tabs;
 pub mod theme;
 pub mod toast;
+pub mod wizard;
 
 pub use block::render_scrollbar;
 pub use footer::{keybind_spans, render_footer, render_footer_with_app};
@@ -72,3 +73,4 @@ pub use log::{LogEntry, LogLevel};
 pub use picker::{PickerItem, PickerState, render_picker};
 pub use theme::Theme;
 pub use toast::{Toast, ToastLevel, render_toasts};
+pub use wizard::{ArrayEditSession, ArrayState, WizardEvent, WizardStep, WizardStepKind, WizardState, render_wizard};

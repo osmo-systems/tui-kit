@@ -13,3 +13,4 @@ keywords = ["tui", "ratatui", "terminal", "widgets", "theme"]
 [dependencies]
 ratatui = "0.28"
 crossterm = "0.28"
+unicode-width = "0.1"
