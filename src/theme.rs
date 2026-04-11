@@ -85,13 +85,23 @@ impl Theme {
     /// | Muted / hints      | DarkGray       |
     pub fn native() -> Self {
         Self {
-            border_focused:   Style::default().fg(Color::LightBlue).add_modifier(Modifier::BOLD),
+            border_focused: Style::default()
+                .fg(Color::LightBlue)
+                .add_modifier(Modifier::BOLD),
             border_unfocused: Style::default().fg(Color::DarkGray),
-            border_popup:     Style::default().fg(Color::LightBlue).add_modifier(Modifier::BOLD),
-            border_error:     Style::default().fg(Color::LightRed).add_modifier(Modifier::BOLD),
-            border_warning:   Style::default().fg(Color::Yellow).add_modifier(Modifier::BOLD),
+            border_popup: Style::default()
+                .fg(Color::LightBlue)
+                .add_modifier(Modifier::BOLD),
+            border_error: Style::default()
+                .fg(Color::LightRed)
+                .add_modifier(Modifier::BOLD),
+            border_warning: Style::default()
+                .fg(Color::Yellow)
+                .add_modifier(Modifier::BOLD),
 
-            tab_active:   Style::default().fg(Color::LightBlue).add_modifier(Modifier::BOLD),
+            tab_active: Style::default()
+                .fg(Color::LightBlue)
+                .add_modifier(Modifier::BOLD),
             tab_inactive: Style::default().fg(Color::DarkGray),
 
             selection: Style::default()
@@ -99,13 +109,17 @@ impl Theme {
                 .bg(Color::LightBlue)
                 .add_modifier(Modifier::BOLD),
 
-            shortcut_key:       Style::default().fg(Color::Yellow),
-            shortcut_indicator: Style::default().fg(Color::Yellow).add_modifier(Modifier::BOLD),
+            shortcut_key: Style::default().fg(Color::Yellow),
+            shortcut_indicator: Style::default()
+                .fg(Color::Yellow)
+                .add_modifier(Modifier::BOLD),
 
-            section_header: Style::default().fg(Color::LightBlue).add_modifier(Modifier::BOLD),
-            body:           Style::default().fg(Color::White),
-            hint:           Style::default().fg(Color::DarkGray),
-            separator:      Style::default().fg(Color::DarkGray),
+            section_header: Style::default()
+                .fg(Color::LightBlue)
+                .add_modifier(Modifier::BOLD),
+            body: Style::default().fg(Color::Gray),
+            hint: Style::default().fg(Color::DarkGray),
+            separator: Style::default().fg(Color::DarkGray),
 
             success: Style::default().fg(Color::LightGreen),
         }
@@ -127,13 +141,21 @@ impl Theme {
     /// | Hints              | DarkGray     |
     pub fn dark() -> Self {
         Self {
-            border_focused:   Style::default().fg(Color::Green).add_modifier(Modifier::BOLD),
+            border_focused: Style::default()
+                .fg(Color::Green)
+                .add_modifier(Modifier::BOLD),
             border_unfocused: Style::default().fg(Color::White),
-            border_popup:     Style::default().fg(Color::Green).add_modifier(Modifier::BOLD),
-            border_error:     Style::default().fg(Color::Red).add_modifier(Modifier::BOLD),
-            border_warning:   Style::default().fg(Color::Yellow).add_modifier(Modifier::BOLD),
+            border_popup: Style::default()
+                .fg(Color::Green)
+                .add_modifier(Modifier::BOLD),
+            border_error: Style::default().fg(Color::Red).add_modifier(Modifier::BOLD),
+            border_warning: Style::default()
+                .fg(Color::Yellow)
+                .add_modifier(Modifier::BOLD),
 
-            tab_active:   Style::default().fg(Color::Green).add_modifier(Modifier::BOLD),
+            tab_active: Style::default()
+                .fg(Color::Green)
+                .add_modifier(Modifier::BOLD),
             tab_inactive: Style::default().fg(Color::White),
 
             selection: Style::default()
@@ -141,13 +163,17 @@ impl Theme {
                 .bg(Color::Indexed(6))
                 .add_modifier(Modifier::BOLD),
 
-            shortcut_key:       Style::default().fg(Color::Yellow),
-            shortcut_indicator: Style::default().fg(Color::Yellow).add_modifier(Modifier::BOLD),
+            shortcut_key: Style::default().fg(Color::Yellow),
+            shortcut_indicator: Style::default()
+                .fg(Color::Yellow)
+                .add_modifier(Modifier::BOLD),
 
-            section_header: Style::default().fg(Color::Cyan).add_modifier(Modifier::BOLD),
-            body:           Style::default().fg(Color::White),
-            hint:           Style::default().fg(Color::DarkGray),
-            separator:      Style::default().fg(Color::Green),
+            section_header: Style::default()
+                .fg(Color::Cyan)
+                .add_modifier(Modifier::BOLD),
+            body: Style::default().fg(Color::Gray),
+            hint: Style::default().fg(Color::DarkGray),
+            separator: Style::default().fg(Color::Green),
 
             success: Style::default().fg(Color::Green),
         }

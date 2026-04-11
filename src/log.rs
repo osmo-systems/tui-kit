@@ -16,7 +16,7 @@ impl LogLevel {
     pub fn color(self) -> Color {
         match self {
             LogLevel::Debug => Color::DarkGray,
-            LogLevel::Info => Color::White,
+            LogLevel::Info => Color::Gray,
             LogLevel::Warning => Color::Yellow,
             LogLevel::Error => Color::Red,
         }
