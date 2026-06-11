@@ -17,6 +17,7 @@
 //! | [`mouse`]  | [`mouse_hit`] — hit-test a click against a widget [`Rect`] |
 //! | [`toast`]  | [`render_toasts`] — stacked notification toasts |
 //! | [`list`]   | [`list::render_list`] — scrollable focusable list |
+//! | [`tree`]   | [`tree::render_tree`] — foldable hierarchical tree |
 //! | [`form`]   | [`render_form`] — multi-field input form |
 //! | [`kv`]     | [`kv::render_kv_table`] — two-column key/value table |
 //!
@@ -60,6 +61,7 @@ pub mod popup;
 pub mod tabs;
 pub mod theme;
 pub mod toast;
+pub mod tree;
 pub mod wizard;
 
 pub use block::render_scrollbar;
@@ -76,4 +78,5 @@ pub use log::{LogEntry, LogLevel};
 pub use picker::{PickerItem, PickerState, render_picker};
 pub use theme::Theme;
 pub use toast::{Toast, ToastLevel, render_toasts};
+pub use tree::{TreeRow, TreeState, render_tree};
 pub use wizard::{ArrayEditSession, ArrayState, WizardEvent, WizardStep, WizardStepKind, WizardState, render_wizard};
