@@ -62,12 +62,18 @@ impl LeaderNode {
 
 // ── State ─────────────────────────────────────────────────────────────────────
 
+/// Delay before the leader popup first appears after arming. Fast typists
+/// never see a flash; once the popup is shown, subsequent keystrokes don't
+/// re-trigger the delay.
+pub const POPUP_DELAY: std::time::Duration = std::time::Duration::from_millis(200);
+
 pub struct LeaderState {
     pub active: bool,
     sequence: Vec<char>,
     pub root: &'static [LeaderNode],
-    /// Time of the last key event (arm or char press). The popup is only shown
-    /// once 200 ms have passed with no new keypress, so fast typists never see a flash.
+    /// Time of the last key event that still lies within the initial
+    /// `POPUP_DELAY` window. Once the popup has been shown, this field is
+    /// frozen — further keystrokes don't hide the popup between submenus.
     last_key_at: Option<std::time::Instant>,
 }
 
@@ -103,7 +109,16 @@ impl LeaderState {
 
     /// Handle a character key press while leader is active.
     pub fn push(&mut self, c: char) -> LeaderResult {
-        self.last_key_at = Some(std::time::Instant::now());
+        // Only reset the hide-timer if the popup has NOT yet been revealed —
+        // i.e. we're still inside the initial fast-typing window. Once the
+        // popup has been visible, further keystrokes navigate submenus
+        // without causing a flash between them.
+        let still_hiding = self.last_key_at
+            .map(|t| t.elapsed() < POPUP_DELAY)
+            .unwrap_or(false);
+        if still_hiding {
+            self.last_key_at = Some(std::time::Instant::now());
+        }
         self.sequence.push(c);
 
         match self.find_node(&self.sequence.clone()) {
@@ -219,8 +234,6 @@ fn max_label_width_recursive(nodes: &[LeaderNode]) -> usize {
 
 /// Render the leader bar as a centered column popup.
 /// Does nothing when `state.active` is false.
-const POPUP_DELAY: std::time::Duration = std::time::Duration::from_millis(200);
-
 pub fn render_leader_bar(f: &mut Frame, state: &LeaderState, area: Rect, theme: &Theme) {
     if !state.active {
         return;

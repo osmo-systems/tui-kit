@@ -65,7 +65,10 @@ pub mod wizard;
 pub use block::render_scrollbar;
 pub use footer::{keybind_spans, render_footer, render_footer_with_app};
 pub use mouse::{list_item_at, mouse_hit, paragraph_line_at};
-pub use form::{FieldInput, FormEvent, FormField, FormState, render_form};
+pub use form::{
+    FieldInput, FormEvent, FormField, FormState, FormStyle,
+    error_lines, input_row, label_prefix, render_form, render_form_with, select_row, wrap_chars,
+};
 pub use kv::KvRow;
 pub use leader::{LeaderNode, LeaderResult, LeaderState, render_leader_bar};
 pub use list::{ListItem, ListState};
