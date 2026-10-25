@@ -91,7 +91,15 @@ pub fn render_scrollbar(f: &mut Frame, area: Rect, total: usize, position: usize
     if total <= visible {
         return;
     }
-    let mut state = ScrollbarState::new(total).position(position);
+    // ratatui drops the thumb to the bottom of the track when
+    // `position == content_length - 1`, i.e. when the *last row* is at the top
+    // of the viewport. Callers scroll only until the last row is at the bottom,
+    // so content_length must be the number of scroll offsets — passing the row
+    // count instead leaves the thumb stuck mid-track at maximum scroll.
+    let max_offset = total - visible;
+    let mut state = ScrollbarState::new(max_offset + 1)
+        .position(position.min(max_offset))
+        .viewport_content_length(visible);
     f.render_stateful_widget(
         Scrollbar::new(ScrollbarOrientation::VerticalRight),
         area,
